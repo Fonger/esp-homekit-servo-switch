@@ -5,6 +5,7 @@
 
 #include "../config.h"
 
+void on_homekit_event(homekit_event_t event);
 void led_write(bool on);
 
 extern bool light_on;
