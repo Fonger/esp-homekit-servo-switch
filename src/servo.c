@@ -10,6 +10,11 @@
 #include "homekit_config.h"
 #include "servo.h"
 
+// My SG90 works on 500µs ~ 2650µs (spec: 500µ ~ 2400µ)
+uint16_t calc_duty_from_angle(int angle) {
+  return (0.025 + (0.1325 - 0.025) * (double)angle / 180) * UINT16_MAX;
+}
+
 void servo_task(void *pvParameters) {
   printf("Hello from servo_task!\r\n");
 
@@ -27,15 +32,19 @@ void servo_task(void *pvParameters) {
   printf("pwm_start()\n");
   pwm_start();
 
-  vTaskDelay(1500 / portTICK_PERIOD_MS);
+  for (int i = 0; i < 180; i += 36) {
+    pwm_set_duty(calc_duty_from_angle(i));
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+  }
+  for (int i = 180; i >= 0; i -= 36) {
+    pwm_set_duty(calc_duty_from_angle(i));
+    vTaskDelay(1000 / portTICK_PERIOD_MS);
+  }
 
-  printf("pwm_set_duty(UINT16_MAX*0.10)\n");
-  pwm_set_duty(UINT16_MAX * 0.10);
-
-  vTaskDelay(1500 / portTICK_PERIOD_MS);
   pwm_stop();
+  printf("pwm_stop()\n");
 
-  vTaskDelay(2000 / portTICK_PERIOD_MS);
+  vTaskDelay(1000 / portTICK_PERIOD_MS);
 
   vTaskDelete(NULL);
 }
