@@ -22,7 +22,18 @@
     "esp8266.h": "c",
     "stddef.h": "c",
     "portable.h": "c",
-    "pwm.h": "c"
+    "pwm.h": "c",
+    "srp.h": "c",
+    "servo.h": "c",
+    "font_terminus_12x24_iso8859_1.h": "c",
+    "fonts.h": "c",
+    "math.h": "c",
+    "certs.h": "c",
+    "ssl.h": "c",
+    "entropy.h": "c",
+    "button.h": "c",
+    "http_request.h": "c",
+    "interrupts.h": "c"
   },
   "files.exclude": {
     "**/.git": true,
